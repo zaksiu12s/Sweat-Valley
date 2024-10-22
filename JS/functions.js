@@ -124,11 +124,16 @@ function checkForInterractionBlocks(object1, object2) {
 }
 
 function centerMap(value, direction) {
+    var center = {
+        x: (canvas.width - 64) / 2,
+        y: (canvas.height - 64) / 2
+    }
+
     switch (direction) {
         case "x":
-            return value + window.center.x - window.cameraPerson.position.x
+            return value + center.x - window.cameraPerson.position.x
         case "y":
-            return value + window.center.y - window.cameraPerson.position.y
+            return value + center.y - window.cameraPerson.position.y
     }
 }
 

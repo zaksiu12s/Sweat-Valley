@@ -1,31 +1,12 @@
 class Player extends People {
     constructor(config) {
         super(config)
-        this.canRunTimeout = true
-
-        this.walkSound = new Audio()
-        this.walkSound.src = "./ASSETS/MUSIC/16_human_walk_stone_2.wav"
-        this.walkSound.setAttribute("preload", "auto")
-        this.walkSound.setAttribute("controls", "none")
-        this.walkSound.style.display = "none"
-
-        this.damageSound = new Audio()
-        this.damageSound.src = "./ASSETS/MUSIC/11_human_damage_2.wav"
-        this.damageSound.setAttribute("preload", "auto")
-        this.damageSound.setAttribute("controls", "none")
-        this.damageSound.style.display = "none"
-
-        this.healSound = new Audio()
-        this.healSound.src = "./ASSETS/MUSIC/08_human_charge_1.wav"
-        this.healSound.setAttribute("preload", "auto")
-        this.healSound.setAttribute("controls", "none")
-        this.healSound.style.display = "none"
 
         //pressed keys (direction and space)
         this.pressedKeys = config.pressedKeys
     }
 
-    updatePosition() {
+    updatePlayer() {
         //frames that will be displayed from original photo, 0,1,2,3 mean row 0 means first, 1 second etc
         const frames = {
             "right": 0,
@@ -61,8 +42,7 @@ class Player extends People {
             //if sprite is facing backwards then change to facing downwards
             if (this.currentFrame.y === 3) { this.currentFrame.y = 2 }
         }
-    }
-    updateStamina() {
+
         //fires when space is pressed //while direction key and space is pressed change animation to running
         if (this.pressedKeys.shiftHeld && this.pressedKeys.direction && this.stamina > 0) {
 
@@ -73,28 +53,34 @@ class Player extends People {
 
             //reduce stamina
             this.stamina -= 0.4
+            //console.log("Stamina decreased!")
+            //console.log("ultra speed on")
         } else {
             this.speed = { x: this.baseSpeed.x, y: this.baseSpeed.y } //makes speed normal
             if (this.stamina < this.maxStamina && this.pressedKeys.direction && !this.pressedKeys.shiftHeld) {
                 this.stamina += 0.5
+                //console.log("Stamina increased! by option 1")
             }
             if (this.stamina < this.maxStamina && !this.pressedKeys.direction && !this.pressedKeys.shiftHeld) {
                 this.stamina += 0.5
+                //console.log("Stamina increased! by option 2")
             }
             if (this.stamina < this.maxStamina && !this.pressedKeys.direction && this.pressedKeys.shiftHeld) {
                 this.stamina += 0.5
+                //console.log("Stamina increased! by option 3")
             }
         }
-    }
 
-    updateInteractions() {
         for (var i = 0; i < window.currentMap.interractionBlocks.length; i++)
             if (checkForInterractionBlocks(player, window.currentMap)) {
+                console.log("Interracted with the interractions block!")
                 switch (window.currentMap.interractionBlocks[i].direction) {
                     case "islandHomeInside":
+
                         window.currentMapChange = islandHomeInside
                         window.mapChange = true
                         break
+
 
                     case "islands":
                         window.currentMapChange = islands
@@ -102,9 +88,8 @@ class Player extends People {
                         break
                 }
             }
-    }
 
-    drawHud() {
+
         //drawing stamina
         ctx.fillStyle = "black"
         ctx.fillRect(5, 5, 50, 6)
@@ -121,9 +106,7 @@ class Player extends People {
 
         ctx.fillStyle = "red"
         ctx.fillRect(5, 15, this.health / this.maxHealth * 50, 6)
-    }
 
-    updateHealth() {
         //hp deduct when hit
         //setInterval(healthDeduct(this), 1000)
         if (checkForCollisions(player, npc1) && this.canTakeDamage && this.health > 0) {
@@ -150,9 +133,7 @@ class Player extends People {
             }, 3000)
             //console.log("HEAL:" + this.canTakeDamage) 
         }
-    }
 
-    updateFight() {
         //DAMAGE OTHERS!
         if (this.pressedKeys.spaceHeld) {
             console.log(this.pressedKeys.direction)
@@ -186,17 +167,9 @@ class Player extends People {
             }
 
         }
+
+
+
+        //console.log(this.health + "/" + this.maxHealth)
     }
-
-
-
-    updatePlayer() {
-        this.updatePosition()
-        this.updateInteractions()
-        this.updateHealth()
-        this.updateStamina()
-        this.updateFight()
-    }
-
-    //console.log(this.health + "/" + this.maxHealth)
 }

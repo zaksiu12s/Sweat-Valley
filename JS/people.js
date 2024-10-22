@@ -21,22 +21,22 @@ class People extends Object {
         this.speed = this.baseSpeed
 
         //music
-        
+        this.walkSound = new Audio()
+        this.walkSound.src = "./ASSETS/MUSIC/16_human_walk_stone_2.wav"
+        this.walkSound.setAttribute("preload", "auto")
+        this.walkSound.setAttribute("controls", "none")
+        this.walkSound.style.display = "none"
 
-        this.walk = new Image() //walk image form
-        this.run = new Image() //run image form'
+        this.damageSound = new Audio()
+        this.damageSound.src = "./ASSETS/MUSIC/11_human_damage_2.wav"
+        this.damageSound.setAttribute("preload", "auto")
+        this.damageSound.setAttribute("controls", "none")
+        this.damageSound.style.display = "none"
 
-        this.images["walk"] = this.walk
-        this.images["run"] = this.run
-
-        this.walk.src = config.src.walk || this.idle.src
-        this.walk.onload = () => {
-            this.images["walk"].isLoaded = true
-        }
-
-        this.run.src = config.src.run || this.walk.src
-        this.run.onload = () => {
-            this.images["run"].isLoaded = true
-        }
+        this.healSound = new Audio()
+        this.healSound.src = "./ASSETS/MUSIC/08_human_charge_1.wav"
+        this.healSound.setAttribute("preload", "auto")
+        this.healSound.setAttribute("controls", "none")
+        this.healSound.style.display = "none"
     }
 }
